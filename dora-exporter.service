@@ -1,0 +1,15 @@
+[Unit]
+Description=Dora Exporter
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/teamphp/dora-exporter/main.py
+WorkingDirectory=/home/teamphp/dora-exporter
+StandardOutput=journal
+StandardError=journal
+Restart=always
+RestartSec=5
+User=teamphp
+
+[Install]
+WantedBy=multi-user.target
