@@ -89,7 +89,7 @@ To start the Prometheus metrics server and update the metrics periodically, run:
 python main.py
 ```
 
-The server will start on port 8000 (or the specified port) and update the metrics every 10 minutes.
+The server will start on port 5555 (or the specified port) and update the metrics every 10 minutes.
 
 ### Prometheus Configuration
 
@@ -99,7 +99,7 @@ Add the following job to your Prometheus configuration file (`prometheus.yml`):
 scrape_configs:
   - job_name: 'dora_metrics'
     static_configs:
-      - targets: ['localhost:8000']
+      - targets: ['localhost:5555']
 ```
 
 ### `main.py` Script
