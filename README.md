@@ -1,5 +1,5 @@
 
-# DORA Metrics Configuration
+# Prometheus DORA Metrics Exporter 
 
 This project configures and exposes DORA metrics for a GitHub repository using Prometheus. The metrics include Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery (MTTR).
 
