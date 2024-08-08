@@ -50,34 +50,34 @@ The script fetches commits and workflow runs from a specified GitHub repository 
 1. **Deployment Frequency**:
    - **Definition**: Measures how often deployments occur over a specific time period.
    - **Calculation**: 
-     \[
-     \text{Deployment Frequency} = \frac{\text{Total Number of Deployments}}{\text{Number of Days}}
-     \]
+   
+      **Deployment Frequency** = Σ (Total Number of Deployments) / Number of Days
+
    - **Script Detail**: Counts the total number of successful and failed deployments and divides by the number of days in the analysis period.
 
 2. **Lead Time for Changes**:
    - **Definition**: The average time it takes from when a commit is made to when it is deployed.
    - **Calculation**: 
-     \[
-     \text{Average Lead Time for Changes} = \frac{\sum \text{Lead Times}}{\text{Number of Lead Times}}
-     \]
-     where \(\text{Lead Time}\) is the time difference between the commit time and deployment time.
+
+     **Average Lead Time for Changes** = (Sum of Lead Times) / (Number of Lead Times)
+
+     where Lead is the time difference between the commit time and deployment time.
    - **Script Detail**: Calculates lead time for each commit with a corresponding deployment and computes the average lead time.
 
 3. **Change Failure Rate**:
    - **Definition**: The percentage of deployments that fail compared to the total number of deployments.
    - **Calculation**: 
-     \[
-     \text{Change Failure Rate} = \left(\frac{\text{Number of Failed Deployments}}{\text{Total Number of Deployments}}\right) \times 100
-     \]
+
+     **Change Failure Rate** = (Number of Failed Deployments / Total Number of Deployments) × 100
+
    - **Script Detail**: Counts the number of failed deployments, divides by the total number of deployments, and multiplies by 100 to get the percentage.
 
 4. **Mean Time to Recovery (MTTR)**:
    - **Definition**: The average time taken to recover from a failed deployment.
    - **Calculation**: 
-     \[
-     \text{MTTR} = \frac{\sum \text{Recovery Times}}{\text{Number of Recovery Times}}
-     \]
+
+     **MTTR** = Σ (Recovery Times) / Number of Recovery Times
+
      where \(\text{Recovery Time}\) is the duration between a failure being resolved and the next successful deployment.
    - **Script Detail**: Calculates recovery times for each successful deployment following a failure and computes the average.
 
@@ -97,7 +97,7 @@ Add the following job to your Prometheus configuration file (`prometheus.yml`):
 
 ```yaml
 scrape_configs:
-  - job_name: 'dora_metrics'
+  - job_name: 'dora-metrics'
     static_configs:
       - targets: ['localhost:5555']
 ```
