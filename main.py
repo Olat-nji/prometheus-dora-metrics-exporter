@@ -109,6 +109,8 @@ def calculate_deployment_counter(deployments):
     # Update metrics
         DEPLOYMENT_GAUGE.labels(branch=branch, repo=REPO, status='success').set(success_count)
         DEPLOYMENT_GAUGE.labels(branch=branch, repo=REPO, status='failure').set(failure_count)
+        
+    #Change Failure Rate Calculation
         CHANGE_FAILURE_RATE.labels(branch=branch, repo=REPO).set(failure_percentage)
 
     logger.info('Deployment counters updated successfully')
