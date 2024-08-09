@@ -56,7 +56,7 @@ The script fetches commits and workflow runs from a specified GitHub repository 
    - **Script Detail**: Counts the total number of successful and failed deployments and divides by the number of days in the analysis period.
 
 2. **Lead Time for Changes**:
-   - **Definition**: The average time it takes from when a commit is made to when it is deployed.
+   - **Definition**: The average time it takes from when a deployment process starts to when it is deployed.
    - **Calculation**: 
 
      **Average Lead Time for Changes** = (Sum of Lead Times) / (Number of Lead Times)
@@ -76,9 +76,9 @@ The script fetches commits and workflow runs from a specified GitHub repository 
    - **Definition**: The average time taken to recover from a failed deployment.
    - **Calculation**: 
 
-     **MTTR** = Σ (Recovery Times) / Number of Recovery Times
+     **MTTR** = Σ(Recovery Times) / Number of Recovery Times
 
-     where \(\text{Recovery Time}\) is the duration between a failure being resolved and the next successful deployment.
+     where Recovery Times is the duration between a failure being resolved and the next successful deployment.
    - **Script Detail**: Calculates recovery times for each successful deployment following a failure and computes the average.
 
 ### Running the Script

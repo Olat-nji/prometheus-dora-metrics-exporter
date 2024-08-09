@@ -56,16 +56,6 @@ def fetch_data_in_chunks(url, params=None):
             logger.error(f'Error fetching data: {e}')
             break
 
-def fetch_commits():
-    """
-    Fetch commits in chunks.
-    """
-    logger.info('Fetching commits from GitHub repository')
-    url = f'https://api.github.com/repos/{OWNER}/{REPO}/commits'
-    params = {'per_page': 100}
-
-    for data in fetch_data_in_chunks(url, params):
-        yield from data
 
 def fetch_workflow_runs():
     """
@@ -105,7 +95,7 @@ def calculate_deployment_counter(deployments):
 
     logger.info('Deployment counters updated successfully')
 
-def calculate_lead_time_for_changes(commits, deployments):
+def calculate_lead_time_for_changes(deployments):
     """
     Calculate lead time for changes for different branches and update the gauge.
     """
@@ -117,25 +107,24 @@ def calculate_lead_time_for_changes(commits, deployments):
         '.github/workflows/staging.yml': 'staging',
         '.github/workflows/prod.yml': 'prod'
     }
-
-    for commit in commits:
-        commit_sha = commit['sha']
-        commit_time = datetime.strptime(commit['commit']['author']['date'], '%Y-%m-%dT%H:%M:%SZ')
-
-        for deployment in deployments:
-            deployment_sha = deployment['head_sha']
-            deployment_path = deployment['path']
+   
+    for deployment in deployments:
+            
+            deployment_branch = deployment['head_branch']
             deployment_conclusion = deployment['conclusion']
-
+            deployment_path = deployment['path']
+            
+            
             if deployment_conclusion == 'success' and deployment_path in branch_paths:
-                if commit_sha == deployment_sha:
+                    
+                    deployment_started_at = datetime.strptime(deployment['run_started_at'], '%Y-%m-%dT%H:%M:%SZ')        
                     deployment_time = datetime.strptime(deployment['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
-                    lead_time = (deployment_time - commit_time).total_seconds()
+                    lead_time = (deployment_time - deployment_started_at).total_seconds()
 
                     branch = branch_paths[deployment_path]
                     branch_lead_times[branch].append(lead_time)
-                    logger.debug(f'Calculated lead time for commit {commit_sha} on branch {branch}: {lead_time} seconds')
-                    break
+                    logger.debug(f'Calculated lead time for workflows on branch {branch}: {lead_time} seconds')
+                    
 
     for branch, times in branch_lead_times.items():
         if times:
@@ -182,17 +171,16 @@ def update_metrics():
     Fetch data and update Prometheus metrics.
     """
     deployments = list(fetch_workflow_runs())
-    commits = list(fetch_commits())
-
+    
     calculate_deployment_counter(deployments)
-    calculate_lead_time_for_changes(commits, deployments)
+    calculate_lead_time_for_changes(deployments)
     calculate_mttr(deployments)
 
 # Main execution
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5555))
     start_http_server(port)
-    logger.info("Prometheus metrics server started on port {port}")
+    logger.info("Prometheus metrics server started on port "+str(port))
 
     while True:
         try:
