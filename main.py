@@ -30,6 +30,13 @@ DEPLOYMENT_GAUGE = Gauge(
     ['branch', 'repo', 'status']
 )
 
+CHANGE_FAILURE_RATE = Gauge(
+    'github_change_failure_rate',
+    'Percentage of failed GitHub deployments relative to the total number of deployments',
+    ['branch', 'repo']
+)
+
+
 LEAD_TIME_GAUGE = Gauge(
     'github_deployments_lead_time',
     'Lead time for changes in seconds',
@@ -90,8 +97,19 @@ def calculate_deployment_counter(deployments):
                 logger.debug(f'Incremented deployment counter for {branch}, status: {status}')
 
     for branch, statuses in deployment_stats.items():
-        for status, count in statuses.items():
-            DEPLOYMENT_GAUGE.labels(branch=branch, repo=REPO, status=status).set(count)
+        success_count = statuses['success']
+        failure_count = statuses['failure']
+        total_count = success_count + failure_count
+        
+        # Calculate failure percentage
+        if total_count > 0:
+            failure_percentage = (failure_count / total_count) * 100
+        else:
+            failure_percentage = 0
+    # Update metrics
+        DEPLOYMENT_GAUGE.labels(branch=branch, repo=REPO, status='success').set(success_count)
+        DEPLOYMENT_GAUGE.labels(branch=branch, repo=REPO, status='failure').set(failure_count)
+        CHANGE_FAILURE_RATE.labels(branch=branch, repo=REPO).set(failure_percentage)
 
     logger.info('Deployment counters updated successfully')
 

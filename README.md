@@ -51,7 +51,7 @@ The script fetches commits and workflow runs from a specified GitHub repository 
    - **Definition**: Measures how often deployments occur over a specific time period.
    - **Calculation**: 
    
-      **Deployment Frequency** = Σ (Total Number of Deployments) / Number of Days
+      **Deployment Frequency** = Σ (Total Number of Deployments) in Number of Days
 
    - **Script Detail**: Counts the total number of successful and failed deployments and divides by the number of days in the analysis period.
 
