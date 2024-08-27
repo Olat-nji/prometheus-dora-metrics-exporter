@@ -19,7 +19,7 @@ jobs:
           node-version: '14'
 
       - name: Release to GitHub
-        uses: cycjimmy/semantic-release-action@v2.5.4
+        uses: cycjimmy/semantic-release-action@v4
         with:
           semantic_version: 18.0.0
           extra_plugins: |
