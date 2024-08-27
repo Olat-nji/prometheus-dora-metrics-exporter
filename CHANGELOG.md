@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1](https://github.com/Olat-nji/dora-exporter/compare/v1.0.0...v1.0.1) (2024-08-27)
+
+
+### Bug Fixes
+
+* do some stuff ([e985a42](https://github.com/Olat-nji/dora-exporter/commit/e985a42315222a5f80c1a0d138cbddc75a2d6959))
+
 # 1.0.0 (2024-08-27)
 
 
