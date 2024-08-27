@@ -28,4 +28,4 @@ jobs:
           branches: |
             ['main']
         env:
-          GH_TOKEN: ${{ secrets.API_TOKEN_TOKEN }}
+          GH_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
